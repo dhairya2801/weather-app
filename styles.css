@@ -3,6 +3,7 @@ body {
     flex-direction: column;
     gap: 20px;
     align-items: center;
+    background-color: #F5E5E1;
 }
 
 #tbody {

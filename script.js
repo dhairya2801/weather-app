@@ -2,10 +2,19 @@ const btn = document.querySelector('#enter-btn');
 const loc = document.querySelector('#loc');
 const tbody = document.querySelector('#tbody');
 const img = document.querySelector('img');
+const scaleBtn = document.querySelector('#scale');
+
+scaleBtn.addEventListener('click', () => {
+    const text = scaleBtn.textContent;
+    scaleBtn.textContent = (text[text.length - 1] === 'C') ? 
+    'Convert to F' : 'Convert to C';
+    // updateScale(text[text.length - 1]);
+})
 
 btn.addEventListener('click', async () => {
     // clear the table
     tbody.textContent = '';
+    img.src = '';
 
     const location = loc.value;
     if (location === '') {
@@ -15,7 +24,7 @@ btn.addEventListener('click', async () => {
     try {
         const weather = await getWeather(location);
         display(weather);
-        await displayImg(weather.conditions);
+        await displayImg();
     } catch (error) {
         alert(`Error fetching weather. ${error.message}`);
     }
@@ -52,8 +61,8 @@ function display(weather) {
     }
 }
 
-async function displayImg(condition) {
-    const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=QeOY5WAJwWM4BSrlwQ7BelaU09Byth9F&s=${condition}`);
+async function displayImg() {
+    const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=QeOY5WAJwWM4BSrlwQ7BelaU09Byth9F&s=${loc.value}`);
     const res = await response.json();
     img.src = res.data.images.original.url;
 }
